@@ -1,0 +1,23 @@
+#!/usr/bin/python
+# Replacement nagios check for LXC
+import os
+import subprocess
+
+# -w warning -c critical
+# -w 15,10,5 -c 30,25,20
+
+cmd = 'ps -eo pcpu | tail -n+2'
+
+proc = subprocess.Popen(cmd,  stdout=subprocess.PIPE, shell=True)
+(out, err) = proc.communicate()
+
+load = 0.0
+
+for line in out.split():
+	load += float(line)
+
+if int(load) < 10:
+	print "OK - load average: "+str(load)+", "+str(load)+", "+str(load)+"|load1="+str(load)+";"+str(load)+";"+str(load)+";"+str(load)+"; load5="+str(load)+";"+str(load)+";"+str(load)+";"+str(load)+"; load15="+str(load)+";"+str(load)+";"+str(load)+";"+str(load)+";"
+else:
+	print "OK - load average: "+str(load)+", "+str(load)+", "+str(load)+"|load1="+str(load)+";"+str(load)+";"+str(load)+";"+str(load)+"; load5="+str(load)+";"+str(load)+";"+str(load)+";"+str(load)+"; load15="+str(load)+";"+str(load)+";"+str(load)+";"+str(load)+";"
+
